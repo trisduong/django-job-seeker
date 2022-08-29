@@ -15,6 +15,7 @@ class Job(models.Model):
     )
 
     ACTIVE = 'active'
+    OPEN = 'OPEN'
     EMPLOYED = 'employed'
     ARCHIVED = 'archived'
 

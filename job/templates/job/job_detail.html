@@ -1,11 +1,12 @@
 {% extends 'mysite/base.html' %}
+{% load markdown_extras %}
 
 {% block content %}
     <h1 class="title">{{ job.title }} ({{ job.get_status_display }})</h1>
 
     <p class="is-size-4">{{ job.short_description }}</p>
 
-    <p>{{ job.long_description }}</p>
+    <p>{{ job.long_description | markdown | safe }} </p>
 
     <b>Company name: </b>{{ job.company_name}}<br>
     {% if job.company_address %}<b>Company address: </b>{{ job.company_address}}<br>{% endif %}
@@ -18,6 +19,8 @@
 
     {% if job.status == 'active' %}
         <a href="{% url 'apply_for_job' job.id %}" class="button is-success">Apply for job</a>
+    {% elif job.status == 'OPEN' %}
+        <p style="color:crimson">Contact description to apply</p>
     {% else %}
         <p>This job is not available anymore!</p>
     {% endif %}

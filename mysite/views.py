@@ -6,9 +6,18 @@ from job.models import Job
 from userprofile.models import Userprofile
 
 def frontpage(request):
-    jobs = Job.objects.filter(status=Job.ACTIVE).order_by('-created_at')[0:4]
+    jobs = Job.objects.filter(status="active")
 
     return render(request, 'mysite/frontpage.html', {'jobs': jobs})
+
+def awesomejobs(request):
+    jobs = Job.objects.filter(status="OPEN")
+
+    return render(request, 'mysite/frontpage.html', {'jobs': jobs})
+
+
+def about(request):
+    return render(request, 'mysite/about.html')
 
 def signup(request):
     if request.method == 'POST':
