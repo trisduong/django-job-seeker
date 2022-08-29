@@ -1,30 +1,67 @@
 {% extends 'mysite/base.html' %}
+{% load markdown_extras %}
 
 {% block content %}
-    <h2 class="subtitle has-text-centered">Newest jobs</h2>
+    <h2 class="subtitle has-text-centered">Jobs opening</h2>
 
-    <div class="columns">
-        {% for job in jobs %}
-            <div class="column is-3">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4">{{ job.title }}</p>
-                                <p class="subtitle is-6">{{ job.created_at }}</p>
-                            </div>
+    <section>
+        <div id="slider">
+            {% for job in jobs %}
+            <div class="card" >
+                <div class="card-content ">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{ job.title }}</p>
+                            <p class="subtitle is-6">{{ job.created_at }}</p>
                         </div>
+                    </div>
 
-                        <div class="content">
-                            {{ job.short_description }}
+                    <div class="card-content slider-text">
+                        {% if job.short_description %}
+                            <p class="is-size-5 box"> {{ job.short_description }} </p>
+                        {% else %}
+                            <p class="is-size-5 box"> {{ job.long_description | truncatechars:1000 | markdown | safe }} </p>
+                        {% endif %}
 
-                            <hr>
+                        <hr>
 
-                            <a href="{% url 'job_detail' job.id %}">View</a>
-                        </div>
+                        <a href="{% url 'job_detail' job.id %}">View Detail</a>
                     </div>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    </section>
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("item-slide");
+            var captionText = document.getElementById("caption");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+    <script>
+        bulmaCarousel.attach('#slider', {
+            slidesToScroll: 1,
+            slidesToShow: 1,
+            infinite: true,
+            autoplay: false,
+        });
+    </script>
 {% endblock %}

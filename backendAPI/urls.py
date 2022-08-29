@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views
 
-from mysite.views import frontpage, signup
+from mysite.views import frontpage, signup, awesomejobs, about
 
 urlpatterns = [
     path('', frontpage, name='frontpage'),
+    path('awesomejobs/', awesomejobs, name='awesomejobs'),
+    path('about/', about, name='about'),
     path('signup/', signup, name='signup'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('login/', views.LoginView.as_view(template_name='mysite/login.html'), name='login'),
